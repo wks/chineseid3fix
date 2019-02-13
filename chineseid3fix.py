@@ -19,6 +19,7 @@ import mutagen.id3
 
 import argparse
 
+
 def fix_file(filename, source_charset, dry_run):
     print("Opening file: {}".format(filename))
     try:
@@ -33,8 +34,8 @@ def fix_file(filename, source_charset, dry_run):
         return
 
     t.update_to_v24()
-    for k,v in t.items():
-#        print(k)
+    for k, v in t.items():
+        #        print(k)
         if isinstance(v, mutagen.id3.TextFrame) and not isinstance(v, mutagen.id3.TimeStampTextFrame):
             enc = v.encoding
             old_ts = "".join(v.text)
@@ -53,6 +54,7 @@ def fix_file(filename, source_charset, dry_run):
     else:
         t.save(filename)
         print("File {} saved".format(filename))
+
 
 parser = argparse.ArgumentParser(
         description="""
@@ -73,6 +75,7 @@ parser.add_argument('-n', '--dry-run', action="store_true",
                     tags with fixed character encoding.
                     """)
 
+
 def main():
     args = parser.parse_args()
     for filename in args.filenames:
@@ -81,6 +84,7 @@ def main():
                 source_charset=args.source_charset,
                 dry_run=args.dry_run,
                 )
+
 
 if __name__ == '__main__':
     main()
